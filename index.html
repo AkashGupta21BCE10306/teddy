@@ -17,6 +17,19 @@ body{
     background:linear-gradient(135deg,#ffd6e0,#ffe6f0);
     font-family:"Segoe UI", sans-serif;
     padding:12px;
+    overflow:hidden;
+}
+
+/* Floating hearts */
+.heart{
+    position:absolute;
+    font-size:20px;
+    animation:floatUp 6s linear infinite;
+    opacity:0.7;
+}
+@keyframes floatUp{
+    from{ transform:translateY(100vh); opacity:0 }
+    to{ transform:translateY(-10vh); opacity:1 }
 }
 
 /* Card */
@@ -25,9 +38,14 @@ body{
     max-width:360px;
     background:#ffffff;
     padding:26px 20px;
-    border-radius:24px;
+    border-radius:26px;
     text-align:center;
-    box-shadow:0 20px 50px rgba(0,0,0,.25);
+    box-shadow:0 25px 60px rgba(0,0,0,.25);
+    animation:slideIn .8s ease;
+}
+@keyframes slideIn{
+    from{ transform:translateY(40px); opacity:0 }
+    to{ transform:translateY(0); opacity:1 }
 }
 
 /* Text */
@@ -35,7 +53,13 @@ h2{
     font-size:26px;
     color:#ff2e63;
     margin-bottom:10px;
+    animation:pulse 2s infinite;
 }
+@keyframes pulse{
+    0%,100%{ transform:scale(1) }
+    50%{ transform:scale(1.05) }
+}
+
 p{
     font-size:18px;
     color:#444;
@@ -51,6 +75,15 @@ img{
     margin:14px auto;
 }
 
+/* Image animation after accept */
+.zoom{
+    animation:zoomIn .7s ease;
+}
+@keyframes zoomIn{
+    from{ transform:scale(.85); opacity:0 }
+    to{ transform:scale(1); opacity:1 }
+}
+
 /* Buttons */
 .buttons{
     position:relative;
@@ -64,11 +97,16 @@ button{
     border:none;
     border-radius:999px;
     cursor:pointer;
+    transition:transform .15s;
+}
+button:active{
+    transform:scale(.95);
 }
 
 #yes{
     background:#ff2e63;
     color:white;
+    box-shadow:0 12px 25px rgba(255,46,99,.5);
 }
 
 #no{
@@ -106,6 +144,11 @@ button{
 
 <body>
 
+<!-- Floating hearts -->
+<div class="heart" style="left:15%">💖</div>
+<div class="heart" style="left:45%">🧸</div>
+<div class="heart" style="left:75%">❤️</div>
+
 <div class="card" id="card">
     <h2>🧸 Happy Teddy Day<br>Meri Jaan ❤️</h2>
 
@@ -126,6 +169,16 @@ button{
 </div>
 
 <script>
+/* Floating hearts generator */
+setInterval(()=>{
+    const h=document.createElement("div");
+    h.className="heart";
+    h.innerText=["💖","🧸","❤️"][Math.floor(Math.random()*3)];
+    h.style.left=Math.random()*100+"%";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),6000);
+},2200);
+
 const noBtn = document.getElementById("no");
 const yesBtn = document.getElementById("yes");
 const area  = document.querySelector(".buttons");
@@ -133,15 +186,10 @@ const area  = document.querySelector(".buttons");
 function moveNo(){
     const maxX = area.clientWidth - noBtn.clientWidth;
     const maxY = area.clientHeight - noBtn.clientHeight;
-
-    const x = Math.random() * maxX;
-    const y = Math.random() * maxY;
-
-    noBtn.style.left = x + "px";
-    noBtn.style.top  = y + "px";
+    noBtn.style.left = Math.random()*maxX + "px";
+    noBtn.style.top  = Math.random()*maxY + "px";
 }
 
-// Works on both desktop & mobile
 noBtn.addEventListener("mouseenter", moveNo);
 noBtn.addEventListener("touchstart", moveNo);
 
@@ -151,12 +199,11 @@ yesBtn.addEventListener("click", () => {
 
         <p>
             Thank you for accepting my teddy, Jaan ❤️<br>
-            Me nahi janta ab me kya kahu in sab din ka ab matlab bhi hai ya nahi ye janta hu ki u hated me what i did aur sayad ab in sab se koi farak na pade but yeah! mene jo bhi kiya ya kar raha hu me bhi nahi janta .
-            Someday i miss u a lot and iam sorry for everything u may find better than me , but i am stack where i was , sorry if i made u cry , hurt i dont want to be like this
-            <br>Happy teddy day 🤗
+            Ab jab bhi yaad aaye,<br>
+            is teddy ko hug kar lena 🤗
         </p>
 
-        <img src="https://i.pinimg.com/736x/5b/31/41/5b3141950bdb070ef5d29fe5a089c909.jpg">
+        <img src="https://i.pinimg.com/736x/5b/31/41/5b3141950bdb070ef5d29fe5a089c909.jpg" class="zoom">
 
         <p><b>Happy Teddy Day, my love 🧸</b></p>
     `;
@@ -164,7 +211,7 @@ yesBtn.addEventListener("click", () => {
 });
 
 function confetti(){
-    for(let i=0;i<70;i++){
+    for(let i=0;i<60;i++){
         const c=document.createElement("div");
         c.className="confetti";
         c.style.left=Math.random()*100+"vw";
