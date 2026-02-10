@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teddy Day – For Meri Jaan ❤️</title>
+
+<style>
+*{ box-sizing:border-box; }
+
+body{
+    margin:0;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#ffd6e0,#ffe6f0);
+    font-family:"Segoe UI", sans-serif;
+    padding:12px;
+}
+
+/* Card */
+.card{
+    width:100%;
+    max-width:360px;
+    background:#ffffff;
+    padding:26px 20px;
+    border-radius:24px;
+    text-align:center;
+    box-shadow:0 20px 50px rgba(0,0,0,.25);
+}
+
+/* Text */
+h2{
+    font-size:26px;
+    color:#ff2e63;
+    margin-bottom:10px;
+}
+p{
+    font-size:18px;
+    color:#444;
+    line-height:1.5;
+    margin:8px 0;
+}
+
+/* Image */
+img{
+    width:100%;
+    max-width:240px;
+    border-radius:18px;
+    margin:14px auto;
+}
+
+/* Buttons */
+.buttons{
+    position:relative;
+    height:120px;
+    margin-top:18px;
+}
+
+button{
+    padding:14px 32px;
+    font-size:18px;
+    border:none;
+    border-radius:999px;
+    cursor:pointer;
+}
+
+#yes{
+    background:#ff2e63;
+    color:white;
+}
+
+#no{
+    position:absolute;
+    background:#eee;
+    color:#333;
+    top:50px;
+    left:50%;
+    transform:translateX(-50%);
+}
+
+/* Hint */
+.hint{
+    font-size:15px;
+    color:#777;
+    margin-top:10px;
+}
+
+/* Confetti */
+.confetti{
+    position:fixed;
+    width:8px;
+    height:8px;
+    top:-10px;
+    animation:fall 3s linear forwards;
+}
+@keyframes fall{
+    to{
+        transform:translateY(100vh) rotate(360deg);
+        opacity:0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="card" id="card">
+    <h2>🧸 Happy Teddy Day<br>Meri Jaan ❤️</h2>
+
+    <p>
+        Yeh teddy sirf tumhare liye 🧸<br>
+        Jab bhi tum udaas ho,<br>
+        is teddy ko gale laga lena ❤️
+    </p>
+
+    <img src="https://i.pinimg.com/736x/5b/31/41/5b3141950bdb070ef5d29fe5a089c909.jpg">
+
+    <div class="buttons">
+        <button id="yes">Accept Teddy 🧸</button>
+        <button id="no">No</button>
+    </div>
+
+    <div class="hint">Please accept my cute teddy ❤️</div>
+</div>
+
+<script>
+const noBtn = document.getElementById("no");
+const yesBtn = document.getElementById("yes");
+const area  = document.querySelector(".buttons");
+
+function moveNo(){
+    const maxX = area.clientWidth - noBtn.clientWidth;
+    const maxY = area.clientHeight - noBtn.clientHeight;
+
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+
+    noBtn.style.left = x + "px";
+    noBtn.style.top  = y + "px";
+}
+
+// Works on both desktop & mobile
+noBtn.addEventListener("mouseenter", moveNo);
+noBtn.addEventListener("touchstart", moveNo);
+
+yesBtn.addEventListener("click", () => {
+    document.getElementById("card").innerHTML = `
+        <h2>🧸 Teddy Accepted 🥰❤️</h2>
+
+        <p>
+            Thank you for accepting my teddy, Jaan ❤️<br>
+            Me nahi janta ab me kya kahu in sab din ka ab matlab bhi hai ya nahi ye janta hu ki u hated me what i did aur sayad ab in sab se koi farak na pade but yeah! mene jo bhi kiya ya kar raha hu me bhi nahi janta .
+            Someday i miss u a lot and iam sorry for everything u may find better than me , but i am stack where i was , sorry if i made u cry , hurt i dont want to be like this
+            <br>Happy teddy day 🤗
+        </p>
+
+        <img src="https://i.pinimg.com/736x/5b/31/41/5b3141950bdb070ef5d29fe5a089c909.jpg">
+
+        <p><b>Happy Teddy Day, my love 🧸</b></p>
+    `;
+    confetti();
+});
+
+function confetti(){
+    for(let i=0;i<70;i++){
+        const c=document.createElement("div");
+        c.className="confetti";
+        c.style.left=Math.random()*100+"vw";
+        c.style.background=`hsl(${Math.random()*360},100%,60%)`;
+        document.body.appendChild(c);
+        setTimeout(()=>c.remove(),3000);
+    }
+}
+</script>
+
+</body>
+</html>
